@@ -2,12 +2,14 @@ import { Service, PlatformAccessory, CharacteristicValue } from 'homebridge';
 
 import { ExampleHomebridgePlatform } from './platform';
 
+const accessories: AspectRatioAccessory[] = [];
+
 /**
  * Platform Accessory
  * An instance of this class is created for each accessory your platform registers
  * Each accessory may expose multiple services of different service types.
  */
-export class ExamplePlatformAccessory {
+export class AspectRatioAccessory {
   private service: Service;
 
   /**
@@ -21,6 +23,7 @@ export class ExamplePlatformAccessory {
   constructor(
     private readonly platform: ExampleHomebridgePlatform,
     private readonly accessory: PlatformAccessory,
+    public readonly aspectRatioId: string,
   ) {
 
     // set accessory information
@@ -38,6 +41,8 @@ export class ExamplePlatformAccessory {
     this.service.getCharacteristic(this.platform.Characteristic.On)
       .onGet(this.getOn.bind(this))
       .onSet(this.setOn.bind(this));
+
+    accessories.push(this);
   }
 
   /**
@@ -49,6 +54,12 @@ export class ExamplePlatformAccessory {
     this.exampleStates.On = value as boolean;
 
     this.platform.log.debug('Set Characteristic On ->', value);
+
+    accessories.forEach(accessory => {
+      if (this.aspectRatioId !== accessory.aspectRatioId) {
+        accessory.setOn(false);
+      }
+    });
   }
 
   /**
