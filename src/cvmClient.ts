@@ -31,7 +31,7 @@ export class CvmClient {
     this.connectionPromise = this.connection.connect(params);
   }
 
-  async send(command) {
+  send(command) {
     this.connectionPromise = this.connectionPromise.then(() => {
       return this.connection.exec(command);
     });
