@@ -2,6 +2,7 @@ import { API, DynamicPlatformPlugin, Logger, PlatformAccessory, PlatformConfig, 
 
 import { PLATFORM_NAME, PLUGIN_NAME } from './settings';
 import { AspectRatioAccessory } from './platformAccessory';
+import { CvmClient, commands as cvmCommands } from './cvmClient';
 
 /**
  * HomebridgePlatform
@@ -14,6 +15,9 @@ export class ExampleHomebridgePlatform implements DynamicPlatformPlugin {
 
   // this is used to track restored cached accessories
   public readonly accessories: PlatformAccessory[] = [];
+
+  // CVM client
+  private readonly cvmClient: CvmClient = new CvmClient('10.1.70.81');
 
   constructor(
     public readonly log: Logger,
@@ -50,6 +54,7 @@ export class ExampleHomebridgePlatform implements DynamicPlatformPlugin {
    * must not be registered again to prevent "duplicate UUID" errors.
    */
   discoverDevices() {
+    const platform = this;
 
     // EXAMPLE ONLY
     // A real plugin you would discover accessories from the local network, cloud services
@@ -58,10 +63,16 @@ export class ExampleHomebridgePlatform implements DynamicPlatformPlugin {
       {
         id: '1_85',
         displayName: '1.85',
+        control() {
+          platform.cvmClient.send(cvmCommands.POS_1_85);
+        },
       },
       {
         id: '2_40',
         displayName: '2.40',
+        control() {
+          platform.cvmClient.send(cvmCommands.POS_1_85);
+        },
       },
     ];
 
@@ -87,7 +98,7 @@ export class ExampleHomebridgePlatform implements DynamicPlatformPlugin {
 
         // create the accessory handler for the restored accessory
         // this is imported from `platformAccessory.ts`
-        new AspectRatioAccessory(this, existingAccessory, aspectRatio.id);
+        new AspectRatioAccessory(this, existingAccessory, aspectRatio);
 
         // it is possible to remove platform accessories at any time using `api.unregisterPlatformAccessories`, eg.:
         // remove platform accessories when no longer present
@@ -106,7 +117,7 @@ export class ExampleHomebridgePlatform implements DynamicPlatformPlugin {
 
         // create the accessory handler for the newly create accessory
         // this is imported from `platformAccessory.ts`
-        new AspectRatioAccessory(this, accessory, aspectRatio.id);
+        new AspectRatioAccessory(this, accessory, aspectRatio);
 
         // link the accessory to your platform
         this.api.registerPlatformAccessories(PLUGIN_NAME, PLATFORM_NAME, [accessory]);

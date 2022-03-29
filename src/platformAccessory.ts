@@ -23,7 +23,7 @@ export class AspectRatioAccessory {
   constructor(
     private readonly platform: ExampleHomebridgePlatform,
     private readonly accessory: PlatformAccessory,
-    public readonly aspectRatioId: string,
+    public readonly aspectRatio,
   ) {
 
     // set accessory information
@@ -56,8 +56,9 @@ export class AspectRatioAccessory {
     this.platform.log.debug('Set Characteristic On ->', value);
 
     if (value) {
+      this.aspectRatio.control();
       accessories.forEach(accessory => {
-        if (this.aspectRatioId !== accessory.aspectRatioId) {
+        if (this.aspectRatio.id !== accessory.aspectRatio.id) {
           accessory.service.updateCharacteristic(accessory.platform.Characteristic.On, false);
         }
       });
