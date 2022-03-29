@@ -61,6 +61,20 @@ export class ExampleHomebridgePlatform implements DynamicPlatformPlugin {
     // or a user-defined array in the platform config.
     const aspectRatios = [
       {
+        id: '16_BY_9',
+        displayName: '16:9',
+        control() {
+          platform.cvmClient.send(cvmCommands.POS_16_BY_9);
+        },
+      },
+      {
+        id: '4_BY_3',
+        displayName: '4:3',
+        control() {
+          platform.cvmClient.send(cvmCommands.POS_4_BY_3);
+        },
+      },
+      {
         id: '1_85',
         displayName: '1.85',
         control() {
@@ -68,10 +82,10 @@ export class ExampleHomebridgePlatform implements DynamicPlatformPlugin {
         },
       },
       {
-        id: '2_40',
-        displayName: '2.40',
+        id: '2_35',
+        displayName: '2.35',
         control() {
-          platform.cvmClient.send(cvmCommands.POS_1_85);
+          platform.cvmClient.send(cvmCommands.POS_2_35);
         },
       },
     ];

@@ -56,12 +56,12 @@ export class AspectRatioAccessory {
     this.platform.log.debug('Set Characteristic On ->', value);
 
     if (value) {
-      this.aspectRatio.control();
       accessories.forEach(accessory => {
         if (this.aspectRatio.id !== accessory.aspectRatio.id) {
           accessory.service.updateCharacteristic(accessory.platform.Characteristic.On, false);
         }
       });
+      this.aspectRatio.control();
     }
   }
 
