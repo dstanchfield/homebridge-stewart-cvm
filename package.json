@@ -1,6 +1,6 @@
 {
   "private": true,
-  "displayName": "Stewart CVM Homebridge Plugin",
+  "displayName": "Stewart CVM Plugin",
   "name": "homebridge-stewart-cvm",
   "version": "1.0.0",
   "description": "A Homebridge plugin for controlling Stewart CVM.",
