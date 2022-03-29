@@ -33,7 +33,7 @@ export class CvmClient {
 
   send(command) {
     this.connectionPromise = this.connectionPromise.then(() => {
-      return this.connection.exec(command);
+      return this.connection.send(command);
     });
   }
 }
