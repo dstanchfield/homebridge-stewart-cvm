@@ -58,7 +58,7 @@ export class AspectRatioAccessory {
     if (value) {
       accessories.forEach(accessory => {
         if (this.aspectRatioId !== accessory.aspectRatioId) {
-          accessory.setOn(false);
+          accessory.service.updateCharacteristic(accessory.platform.Characteristic.On, false);
         }
       });
     }
