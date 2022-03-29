@@ -55,11 +55,13 @@ export class AspectRatioAccessory {
 
     this.platform.log.debug('Set Characteristic On ->', value);
 
-    accessories.forEach(accessory => {
-      if (this.aspectRatioId !== accessory.aspectRatioId) {
-        accessory.setOn(false);
-      }
-    });
+    if (value) {
+      accessories.forEach(accessory => {
+        if (this.aspectRatioId !== accessory.aspectRatioId) {
+          accessory.setOn(false);
+        }
+      });
+    }
   }
 
   /**
