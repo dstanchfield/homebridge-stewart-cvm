@@ -31,14 +31,12 @@ export class ExamplePlatformAccessory {
 
     // get the LightBulb service if it exists, otherwise create a new LightBulb service
     // you can create multiple services for each accessory
-    this.service = this.accessory.getService(this.platform.Service.StatelessProgrammableSwitch) ||
-      this.accessory.addService(this.platform.Service.StatelessProgrammableSwitch);
+    this.service = this.accessory.getService(this.platform.Service.Switch) ||
+      this.accessory.addService(this.platform.Service.Switch);
 
     // create handlers for required characteristics
-    this.service.getCharacteristic(this.platform.Characteristic.ProgrammableSwitchEvent)
-      .onGet(this.getOn.bind(this));
-
-    this.service.getCharacteristic(this.platform.Characteristic.ProgrammableSwitchEvent)
+    this.service.getCharacteristic(this.platform.Characteristic.On)
+      .onGet(this.getOn.bind(this))
       .onSet(this.setOn.bind(this));
   }
 
