@@ -4,6 +4,8 @@ import { PLATFORM_NAME, PLUGIN_NAME } from './settings';
 import { AspectRatioAccessory } from './platformAccessory';
 import { CvmClient, commands as cvmCommands } from './cvmClient';
 
+const cvmClient: CvmClient = new CvmClient('10.1.70.81');
+
 /**
  * HomebridgePlatform
  * This class is the main constructor for your plugin, this is where you should
@@ -15,9 +17,6 @@ export class ExampleHomebridgePlatform implements DynamicPlatformPlugin {
 
   // this is used to track restored cached accessories
   public readonly accessories: PlatformAccessory[] = [];
-
-  // CVM client
-  private readonly cvmClient: CvmClient = new CvmClient('10.1.70.81');
 
   constructor(
     public readonly log: Logger,
@@ -54,8 +53,6 @@ export class ExampleHomebridgePlatform implements DynamicPlatformPlugin {
    * must not be registered again to prevent "duplicate UUID" errors.
    */
   discoverDevices() {
-    const platform = this;
-
     // EXAMPLE ONLY
     // A real plugin you would discover accessories from the local network, cloud services
     // or a user-defined array in the platform config.
@@ -64,28 +61,28 @@ export class ExampleHomebridgePlatform implements DynamicPlatformPlugin {
         id: '16_BY_9',
         displayName: '16:9',
         control() {
-          platform.cvmClient.send(cvmCommands.POS_16_BY_9);
+          cvmClient.send(cvmCommands.POS_16_BY_9);
         },
       },
       {
         id: '4_BY_3',
         displayName: '4:3',
         control() {
-          platform.cvmClient.send(cvmCommands.POS_4_BY_3);
+          cvmClient.send(cvmCommands.POS_4_BY_3);
         },
       },
       {
         id: '1_85',
         displayName: '1.85',
         control() {
-          platform.cvmClient.send(cvmCommands.POS_1_85);
+          cvmClient.send(cvmCommands.POS_1_85);
         },
       },
       {
         id: '2_35',
         displayName: '2.35',
         control() {
-          platform.cvmClient.send(cvmCommands.POS_2_35);
+          cvmClient.send(cvmCommands.POS_2_35);
         },
       },
     ];

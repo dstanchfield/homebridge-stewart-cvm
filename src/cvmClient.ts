@@ -28,6 +28,10 @@ export class CvmClient {
       ors: '\r\n',
     };
 
+    this.connection.on('data', (data) => {
+      throw Error(data.toString());
+    });
+
     this.connectionPromise = this.connection.connect(params);
   }
 
