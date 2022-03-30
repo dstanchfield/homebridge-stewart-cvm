@@ -29,7 +29,7 @@ export class CvmClient {
     };
 
     this.connection.on('data', (data) => {
-      throw Error(data.toString());
+
     });
 
     this.connectionPromise = this.connection.connect(params);
