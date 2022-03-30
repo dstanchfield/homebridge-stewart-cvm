@@ -62,7 +62,7 @@ export class ExampleHomebridgePlatform implements DynamicPlatformPlugin {
       const aspectRatioDetails = {
         displayName: cvmAspectRatios[aspectRatio],
         control() {
-          cvmClient.call(aspectRatio);
+          cvmClient.call(positions[aspectRatio]);
         },
       };
 
