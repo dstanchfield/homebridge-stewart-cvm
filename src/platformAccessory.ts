@@ -2,8 +2,6 @@ import { Service, PlatformAccessory, CharacteristicValue } from 'homebridge';
 
 import { ExampleHomebridgePlatform } from './platform';
 
-const accessories: AspectRatioAccessory[] = [];
-
 /**
  * Platform Accessory
  * An instance of this class is created for each accessory your platform registers
@@ -42,7 +40,13 @@ export class AspectRatioAccessory {
       .onGet(this.getOn.bind(this))
       .onSet(this.setOn.bind(this));
 
-    accessories.push(this);
+    this.aspectRatioDetails.cvmClient.onChange(this.handleExternalControl);
+  }
+
+  handleExternalControl(position) {
+    if (position !== this.aspectRatioDetails.position) {
+      this.service.updateCharacteristic(this.platform.Characteristic.On, false);
+    }
   }
 
   /**
@@ -56,7 +60,7 @@ export class AspectRatioAccessory {
     this.platform.log.debug('Set Characteristic On ->', value);
 
     if (value) {
-      this.aspectRatioDetails.control();
+      this.aspectRatioDetails.cvmClient.call(this.aspectRatioDetails.position);
     }
   }
 
