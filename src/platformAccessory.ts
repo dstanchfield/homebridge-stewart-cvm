@@ -23,14 +23,14 @@ export class AspectRatioAccessory {
   constructor(
     private readonly platform: ExampleHomebridgePlatform,
     private readonly accessory: PlatformAccessory,
-    public readonly aspectRatio,
+    public readonly aspectRatioDetails,
   ) {
 
     // set accessory information
     this.accessory.getService(this.platform.Service.AccessoryInformation)!
-      .setCharacteristic(this.platform.Characteristic.Manufacturer, 'Default-Manufacturer')
-      .setCharacteristic(this.platform.Characteristic.Model, 'Default-Model')
-      .setCharacteristic(this.platform.Characteristic.SerialNumber, 'Default-Serial');
+      .setCharacteristic(this.platform.Characteristic.Manufacturer, 'Stewart')
+      .setCharacteristic(this.platform.Characteristic.Model, 'CVM')
+      .setCharacteristic(this.platform.Characteristic.SerialNumber, aspectRatioDetails.displayName);
 
     // get the LightBulb service if it exists, otherwise create a new LightBulb service
     // you can create multiple services for each accessory
@@ -56,12 +56,7 @@ export class AspectRatioAccessory {
     this.platform.log.debug('Set Characteristic On ->', value);
 
     if (value) {
-      accessories.forEach(accessory => {
-        if (this.aspectRatio.id !== accessory.aspectRatio.id) {
-          accessory.service.updateCharacteristic(accessory.platform.Characteristic.On, false);
-        }
-      });
-      this.aspectRatio.control();
+      this.aspectRatioDetails.control();
     }
   }
 

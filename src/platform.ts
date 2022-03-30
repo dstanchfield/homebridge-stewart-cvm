@@ -2,7 +2,7 @@ import { API, DynamicPlatformPlugin, Logger, PlatformAccessory, PlatformConfig, 
 
 import { PLATFORM_NAME, PLUGIN_NAME } from './settings';
 import { AspectRatioAccessory } from './platformAccessory';
-import { CvmClient, commands as cvmCommands } from './cvmClient';
+import { CvmClient, positions, aspectRatios as cvmAspectRatios } from './cvmClient';
 
 const cvmClient: CvmClient = new CvmClient('10.1.70.81');
 
@@ -53,47 +53,23 @@ export class ExampleHomebridgePlatform implements DynamicPlatformPlugin {
    * must not be registered again to prevent "duplicate UUID" errors.
    */
   discoverDevices() {
-    // EXAMPLE ONLY
-    // A real plugin you would discover accessories from the local network, cloud services
-    // or a user-defined array in the platform config.
-    const aspectRatios = [
-      {
-        id: '16_BY_9',
-        displayName: '16:9',
-        control() {
-          cvmClient.send(cvmCommands.POS_16_BY_9);
-        },
-      },
-      {
-        id: '4_BY_3',
-        displayName: '4:3',
-        control() {
-          cvmClient.send(cvmCommands.POS_4_BY_3);
-        },
-      },
-      {
-        id: '1_85',
-        displayName: '1.85',
-        control() {
-          cvmClient.send(cvmCommands.POS_1_85);
-        },
-      },
-      {
-        id: '2_35',
-        displayName: '2.35',
-        control() {
-          cvmClient.send(cvmCommands.POS_2_35);
-        },
-      },
-    ];
+
+    const aspectRatios = [positions.POS_1_85, positions.POS_2_35, positions.POS_4_BY_3];
 
     // loop over the discovered devices and register each one if it has not already been registered
     for (const aspectRatio of aspectRatios) {
 
+      const aspectRatioDetails = {
+        displayName: cvmAspectRatios[aspectRatio],
+        control() {
+          cvmClient.call(aspectRatio);
+        },
+      };
+
       // generate a unique id for the accessory this should be generated from
       // something globally unique, but constant, for example, the device serial
       // number or MAC address
-      const uuid = this.api.hap.uuid.generate(aspectRatio.id);
+      const uuid = this.api.hap.uuid.generate(aspectRatio);
 
       // see if an accessory with the same uuid has already been registered and restored from
       // the cached devices we stored in the `configureAccessory` method above
@@ -109,7 +85,7 @@ export class ExampleHomebridgePlatform implements DynamicPlatformPlugin {
 
         // create the accessory handler for the restored accessory
         // this is imported from `platformAccessory.ts`
-        new AspectRatioAccessory(this, existingAccessory, aspectRatio);
+        new AspectRatioAccessory(this, existingAccessory, aspectRatioDetails);
 
         // it is possible to remove platform accessories at any time using `api.unregisterPlatformAccessories`, eg.:
         // remove platform accessories when no longer present
@@ -117,18 +93,18 @@ export class ExampleHomebridgePlatform implements DynamicPlatformPlugin {
         // this.log.info('Removing existing accessory from cache:', existingAccessory.displayName);
       } else {
         // the accessory does not yet exist, so we need to create it
-        this.log.info('Adding new accessory:', aspectRatio.displayName);
+        this.log.info('Adding new accessory:', aspectRatioDetails.displayName);
 
         // create a new accessory
-        const accessory = new this.api.platformAccessory(aspectRatio.displayName, uuid);
+        const accessory = new this.api.platformAccessory(aspectRatioDetails.displayName, uuid);
 
         // store a copy of the device object in the `accessory.context`
         // the `context` property can be used to store any data about the accessory you may need
-        accessory.context.device = aspectRatio;
+        accessory.context.device = aspectRatioDetails;
 
         // create the accessory handler for the newly create accessory
         // this is imported from `platformAccessory.ts`
-        new AspectRatioAccessory(this, accessory, aspectRatio);
+        new AspectRatioAccessory(this, accessory, aspectRatioDetails);
 
         // link the accessory to your platform
         this.api.registerPlatformAccessories(PLUGIN_NAME, PLATFORM_NAME, [accessory]);
