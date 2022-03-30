@@ -54,7 +54,7 @@ export class ExampleHomebridgePlatform implements DynamicPlatformPlugin {
    */
   discoverDevices() {
 
-    const aspectRatios = [positions.POS_1_85, positions.POS_2_35, positions.POS_4_BY_3];
+    const aspectRatios = ['POS_1_85', 'POS_2_35', 'POS_4_BY_3'];
 
     // loop over the discovered devices and register each one if it has not already been registered
     for (const aspectRatio of aspectRatios) {
