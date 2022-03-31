@@ -2,7 +2,7 @@ import { API, DynamicPlatformPlugin, Logger, PlatformAccessory, PlatformConfig, 
 
 import { PLATFORM_NAME, PLUGIN_NAME } from './settings';
 import { AspectRatioAccessory } from './aspectRatioAccessory';
-import { CvmClient, aspectRatios as cvmAspectRatios } from './cvmClient';
+import { CvmClient } from './cvmClient';
 
 const cvmClient: CvmClient = new CvmClient('10.1.70.81');
 
@@ -24,7 +24,6 @@ export class ExampleHomebridgePlatform implements DynamicPlatformPlugin {
     public readonly api: API,
   ) {
     this.log.debug('Finished initializing platform:', this.config.name);
-    this.log.info(JSON.stringify(config));
 
     // When this event is fired it means Homebridge has restored all cached accessories from disk.
     // Dynamic Platform plugins should only register new accessories after this event was fired,
@@ -33,7 +32,7 @@ export class ExampleHomebridgePlatform implements DynamicPlatformPlugin {
     this.api.on('didFinishLaunching', () => {
       log.debug('Executed didFinishLaunching callback');
       // run the method to discover / register your devices as accessories
-      this.discoverDevices();
+      this.setupAspectRatioAccessories(config.aspectRatios);
     });
   }
 
@@ -53,16 +52,14 @@ export class ExampleHomebridgePlatform implements DynamicPlatformPlugin {
    * Accessories must only be registered once, previously created accessories
    * must not be registered again to prevent "duplicate UUID" errors.
    */
-  discoverDevices() {
-
-    const aspectRatios = ['POS_1_85', 'POS_2_35', 'POS_4_BY_3'];
+  setupAspectRatioAccessories(aspectRatios) {
 
     // loop over the discovered devices and register each one if it has not already been registered
     for (const aspectRatio of aspectRatios) {
 
       const aspectRatioDetails = {
-        displayName: cvmAspectRatios[aspectRatio],
-        position: aspectRatio,
+        displayName: aspectRatio.displayName,
+        position: aspectRatio.ratio,
         cvmClient,
       };
 
