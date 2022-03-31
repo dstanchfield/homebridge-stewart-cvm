@@ -1,7 +1,7 @@
 import { API, DynamicPlatformPlugin, Logger, PlatformAccessory, PlatformConfig, Service, Characteristic } from 'homebridge';
 
 import { PLATFORM_NAME, PLUGIN_NAME } from './settings';
-import { AspectRatioAccessory } from './platformAccessory';
+import { AspectRatioAccessory } from './aspectRatioAccessory';
 import { CvmClient, aspectRatios as cvmAspectRatios } from './cvmClient';
 
 const cvmClient: CvmClient = new CvmClient('10.1.70.81');
@@ -24,6 +24,7 @@ export class ExampleHomebridgePlatform implements DynamicPlatformPlugin {
     public readonly api: API,
   ) {
     this.log.debug('Finished initializing platform:', this.config.name);
+    this.log.info(JSON.stringify(config));
 
     // When this event is fired it means Homebridge has restored all cached accessories from disk.
     // Dynamic Platform plugins should only register new accessories after this event was fired,
