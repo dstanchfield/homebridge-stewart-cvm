@@ -74,7 +74,7 @@ export class AspectRatioAccessory {
 
     this.platform.log.debug('Get Characteristic On ->', isOn);
 
-    return isOn;
+    return 0;
   }
 
 }
