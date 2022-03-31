@@ -4,8 +4,6 @@ import { PLATFORM_NAME, PLUGIN_NAME } from './settings';
 import { AspectRatioAccessory } from './aspectRatioAccessory';
 import { CvmClient, ratioToPosition } from './cvmClient';
 
-const cvmClient: CvmClient = new CvmClient('10.1.70.81');
-
 /**
  * HomebridgePlatform
  * This class is the main constructor for your plugin, this is where you should
@@ -18,12 +16,17 @@ export class ExampleHomebridgePlatform implements DynamicPlatformPlugin {
   // this is used to track restored cached accessories
   public readonly accessories: PlatformAccessory[] = [];
 
+  private cvmClient: CvmClient;
+
   constructor(
     public readonly log: Logger,
     public readonly config: PlatformConfig,
     public readonly api: API,
   ) {
     this.log.debug('Finished initializing platform:', this.config.name);
+
+    // setup CVM client
+    this.cvmClient = new CvmClient(config.ip);
 
     // When this event is fired it means Homebridge has restored all cached accessories from disk.
     // Dynamic Platform plugins should only register new accessories after this event was fired,
@@ -60,7 +63,7 @@ export class ExampleHomebridgePlatform implements DynamicPlatformPlugin {
       const aspectRatioDetails = {
         displayName: aspectRatio.displayName,
         position: ratioToPosition[aspectRatio.ratio],
-        cvmClient,
+        cvmClient: this.cvmClient,
       };
 
       // generate a unique id for the accessory this should be generated from
