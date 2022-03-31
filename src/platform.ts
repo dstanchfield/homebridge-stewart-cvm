@@ -60,10 +60,12 @@ export class ExampleHomebridgePlatform implements DynamicPlatformPlugin {
     // loop over the discovered devices and register each one if it has not already been registered
     for (const aspectRatio of aspectRatios) {
 
+      const cvmClient = this.cvmClient;
+
       const aspectRatioDetails = {
         displayName: aspectRatio.displayName,
         position: ratioToPosition[aspectRatio.ratio],
-        cvmClient: this.cvmClient,
+        cvmClient,
       };
 
       // generate a unique id for the accessory this should be generated from
