@@ -37,8 +37,10 @@ export class AspectRatioAccessory {
   }
 
   handleExternalControl(position) {
-    if (position !== this.aspectRatioDetails.position) {
-      this.service.updateCharacteristic(this.platform.Characteristic.On, false);
+    if (position === this.aspectRatioDetails.position) {
+      this.switchState = 1;
+    } else {
+      this.service.updateCharacteristic(this.platform.Characteristic.On, 0);
     }
   }
 
@@ -74,7 +76,7 @@ export class AspectRatioAccessory {
 
     this.platform.log.debug('Get Characteristic On ->', isOn);
 
-    return 0;
+    return isOn;
   }
 
 }
