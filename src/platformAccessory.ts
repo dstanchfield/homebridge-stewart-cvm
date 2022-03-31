@@ -55,6 +55,8 @@ export class AspectRatioAccessory {
     if (value && !this.switchState) {
       this.switchState = value;
       this.aspectRatioDetails.cvmClient.call(this.aspectRatioDetails.position);
+    } else if (this.switchState) {
+      this.service.getCharacteristic(this.platform.Characteristic.On).updateValue(1);
     }
   }
 
