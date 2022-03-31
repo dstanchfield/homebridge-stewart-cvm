@@ -9,14 +9,7 @@ import { ExampleHomebridgePlatform } from './platform';
  */
 export class AspectRatioAccessory {
   private service: Service;
-
-  /**
-   * These are just used to create a working example
-   * You should implement your own code to track the state of your accessory
-   */
-  private exampleStates = {
-    On: false,
-  };
+  private switchState: CharacteristicValue = false;
 
   constructor(
     private readonly platform: ExampleHomebridgePlatform,
@@ -54,8 +47,7 @@ export class AspectRatioAccessory {
    * These are sent when the user changes the state of an accessory, for example, turning on a Light bulb.
    */
   async setOn(value: CharacteristicValue) {
-    // implement your own code to turn your device on/off
-    this.exampleStates.On = value as boolean;
+    this.switchState = value;
 
     this.platform.log.debug('Set Characteristic On ->', value);
 
@@ -78,13 +70,9 @@ export class AspectRatioAccessory {
    * this.service.updateCharacteristic(this.platform.Characteristic.On, true)
    */
   async getOn(): Promise<CharacteristicValue> {
-    // implement your own code to check if the device is on
-    const isOn = this.exampleStates.On;
+    const isOn = this.switchState;
 
     this.platform.log.debug('Get Characteristic On ->', isOn);
-
-    // if you need to return an error to show the device as "Not Responding" in the Home app:
-    // throw new this.platform.api.hap.HapStatusError(this.platform.api.hap.HAPStatus.SERVICE_COMMUNICATION_FAILURE);
 
     return isOn;
   }
