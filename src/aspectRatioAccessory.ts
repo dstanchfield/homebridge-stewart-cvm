@@ -1,6 +1,6 @@
 import { Service, PlatformAccessory, CharacteristicValue } from 'homebridge';
 
-import { ExampleHomebridgePlatform } from './platform';
+import { StewartCvmPlatform } from './platform';
 
 /**
  * Platform Accessory
@@ -12,7 +12,7 @@ export class AspectRatioAccessory {
   private switchState: CharacteristicValue = false;
 
   constructor(
-    private readonly platform: ExampleHomebridgePlatform,
+    private readonly platform: StewartCvmPlatform,
     private readonly accessory: PlatformAccessory,
     public readonly aspectRatioDetails,
   ) {
