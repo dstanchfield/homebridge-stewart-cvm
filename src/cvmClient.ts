@@ -18,6 +18,15 @@ export const aspectRatios = {
 };
 
 export const positions = {
+  POS_16_BY_9: 'POS_16_BY_9',
+  POS_4_BY_3: 'POS_4_BY_3',
+  POS_1_85: 'POS_1_85',
+  POS_2_35: 'POS_2_35',
+  POS_USER_1: 'POS_USER_1',
+  POS_USER_2: 'POS_USER_2',
+};
+
+export const commands = {
   POS_16_BY_9: '#1.1.0.MOTOR=RECALL,1;',
   POS_4_BY_3: '#1.1.0.MOTOR=RECALL,2;',
   POS_1_85: '#1.1.0.MOTOR=RECALL,3;',
@@ -101,7 +110,7 @@ export class CvmClient {
 
   call(position) {
     this.connectionPromise = this.connectionPromise.then(() => {
-      return this.connection.send(positions[position]);
+      return this.connection.send(commands[position]);
     });
   }
 
