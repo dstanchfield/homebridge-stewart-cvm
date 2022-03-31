@@ -49,11 +49,10 @@ export class AspectRatioAccessory {
    * These are sent when the user changes the state of an accessory, for example, turning on a Light bulb.
    */
   async setOn(value: CharacteristicValue) {
-    this.switchState = value;
-
     this.platform.log.debug('Set Characteristic On ->', value);
 
     if (value) {
+      this.switchState = value;
       this.aspectRatioDetails.cvmClient.call(this.aspectRatioDetails.position);
     }
   }
