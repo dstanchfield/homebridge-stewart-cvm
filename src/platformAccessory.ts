@@ -41,6 +41,7 @@ export class AspectRatioAccessory {
       this.switchState = 1;
     } else {
       this.service.updateCharacteristic(this.platform.Characteristic.On, 0);
+      this.switchState = 0;
     }
   }
 
@@ -51,7 +52,7 @@ export class AspectRatioAccessory {
   async setOn(value: CharacteristicValue) {
     this.platform.log.debug('Set Characteristic On ->', value);
 
-    if (value) {
+    if (value && !this.switchState) {
       this.switchState = value;
       this.aspectRatioDetails.cvmClient.call(this.aspectRatioDetails.position);
     }
