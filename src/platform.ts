@@ -2,7 +2,7 @@ import { API, DynamicPlatformPlugin, Logger, PlatformAccessory, PlatformConfig, 
 
 import { PLATFORM_NAME, PLUGIN_NAME } from './settings';
 import { AspectRatioAccessory } from './aspectRatioAccessory';
-import { CvmClient } from './cvmClient';
+import { CvmClient, ratioToPosition } from './cvmClient';
 
 const cvmClient: CvmClient = new CvmClient('10.1.70.81');
 
@@ -59,7 +59,7 @@ export class ExampleHomebridgePlatform implements DynamicPlatformPlugin {
 
       const aspectRatioDetails = {
         displayName: aspectRatio.displayName,
-        position: aspectRatio.ratio,
+        position: ratioToPosition[aspectRatio.ratio],
         cvmClient,
       };
 

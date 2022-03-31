@@ -4,6 +4,13 @@ type NotificationCallback = (
   (data: string) => void
 );
 
+export const ratioToPosition = {
+  '16:9': 'POS_16_BY_9',
+  '4:3': 'POS_4_BY_3',
+  '1.85': 'POS_1_85',
+  '2.35': 'POS_2_35',
+};
+
 export const positions = {
   POS_16_BY_9: 'POS_16_BY_9',
   POS_4_BY_3: 'POS_4_BY_3',
