@@ -9,6 +9,8 @@ export const ratioToPosition = {
   '4:3': 'POS_4_BY_3',
   '1.85': 'POS_1_85',
   '2.35': 'POS_2_35',
+  'User1': 'POS_USER_1',
+  'User2': 'POS_USER_2',
 };
 
 export const positions = {
