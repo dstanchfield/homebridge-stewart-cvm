@@ -40,7 +40,7 @@ export class AspectRatioAccessory {
       .onGet(this.getOn.bind(this))
       .onSet(this.setOn.bind(this));
 
-    this.aspectRatioDetails.cvmClient.onChange(this.handleExternalControl);
+    this.aspectRatioDetails.cvmClient.onChange(this.handleExternalControl.bind(this));
   }
 
   handleExternalControl(position) {
