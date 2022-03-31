@@ -57,7 +57,9 @@ export class AspectRatioAccessory {
       this.aspectRatioDetails.cvmClient.call(this.aspectRatioDetails.position);
     } else if (this.switchState) {
       this.platform.log.info('Switch already on');
-      this.service.updateCharacteristic(this.platform.Characteristic.On, 1);
+      setTimeout((() => {
+        this.service.updateCharacteristic(this.platform.Characteristic.On, 1);
+      }).bind(this), 500);
     }
   }
 
