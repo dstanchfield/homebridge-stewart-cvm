@@ -45,7 +45,7 @@ export class CvmClient {
   private connection: Telnet = new Telnet();
   private connectionPromise;
   private changeNotifications: NotificationCallback [] = [];
-  private rawDataCollback: RawDataCallback = null;
+  private rawDataCallback: RawDataCallback [] = [];
 
   constructor(
     private readonly ip: string,
@@ -65,8 +65,8 @@ export class CvmClient {
     this.connection.on('data', (data) => {
       const notification = data.toString().trim();
 
-      if (this.rawDataCollback !== null) {
-        this.rawDataCollback(notification);
+      if (this.rawDataCallback !== null) {
+        this.rawDataCallback.forEach((cb: RawDataCallback) => cb(notification));
       }
 
       switch (notification) {
@@ -107,5 +107,9 @@ export class CvmClient {
 
   onChange(cb) {
     this.changeNotifications.push(cb);
+  }
+
+  onRawData(cb) {
+    this.rawDataCallback.push(cb);
   }
 }
