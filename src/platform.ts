@@ -65,6 +65,8 @@ export class ExampleHomebridgePlatform implements DynamicPlatformPlugin {
         cvmClient,
       };
 
+      cvmClient.logs(this.log.info);
+
       // generate a unique id for the accessory this should be generated from
       // something globally unique, but constant, for example, the device serial
       // number or MAC address

@@ -41,6 +41,8 @@ export class CvmClient {
   private connection: Telnet = new Telnet();
   private connectionPromise;
   private changeNotifications: NotificationCallback [] = [];
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  private logger: ( (data: string) => void ) = () => { };
 
   constructor(
     private readonly ip: string,
@@ -59,6 +61,10 @@ export class CvmClient {
 
     this.connection.on('data', (data) => {
       const notification = data.toString().trim();
+
+      if(this.logger) {
+        this.logger(notification);
+      }
 
       switch (notification) {
         case notifications.POS_16_BY_9_IP:
@@ -98,5 +104,9 @@ export class CvmClient {
 
   onChange(cb) {
     this.changeNotifications.push(cb);
+  }
+
+  logs(log) {
+    this.logger = log;
   }
 }
