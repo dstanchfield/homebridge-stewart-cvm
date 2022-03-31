@@ -65,7 +65,11 @@ export class ExampleHomebridgePlatform implements DynamicPlatformPlugin {
         cvmClient,
       };
 
-      cvmClient.logs(this.log.info);
+      // eslint-disable-next-line @typescript-eslint/no-this-alias
+      const d = this;
+      cvmClient.onRawData((data) => {
+        d.log.info(data);
+      });
 
       // generate a unique id for the accessory this should be generated from
       // something globally unique, but constant, for example, the device serial

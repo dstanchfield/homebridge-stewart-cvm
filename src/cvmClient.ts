@@ -4,6 +4,10 @@ type NotificationCallback = (
   (data: string) => void
 );
 
+type RawDataCallback = (
+  (data: string) => void
+);
+
 export const aspectRatios = {
   POS_16_BY_9: '16:9',
   POS_4_BY_3: '4:3',
@@ -41,8 +45,7 @@ export class CvmClient {
   private connection: Telnet = new Telnet();
   private connectionPromise;
   private changeNotifications: NotificationCallback [] = [];
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
-  private logger: ( (data: string) => void ) = () => { };
+  private rawDataCollback: RawDataCallback = null;
 
   constructor(
     private readonly ip: string,
@@ -62,8 +65,8 @@ export class CvmClient {
     this.connection.on('data', (data) => {
       const notification = data.toString().trim();
 
-      if(this.logger) {
-        this.logger(notification);
+      if (this.rawDataCollback !== null) {
+        this.rawDataCollback(notification);
       }
 
       switch (notification) {
@@ -104,9 +107,5 @@ export class CvmClient {
 
   onChange(cb) {
     this.changeNotifications.push(cb);
-  }
-
-  logs(log) {
-    this.logger = log;
   }
 }
